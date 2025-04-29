@@ -173,14 +173,18 @@ function App() {
               {
                 name: "firstName",
                 placeholder: "First name",
-                value: firstName,
-                onChange: handleFieldChange,
+                extraProps: {
+                  value: firstName,
+                  onChange: handleFieldChange,
+                },
               },
               {
                 name: "lastName",
                 placeholder: "Last name",
-                value: lastName,
-                onChange: handleFieldChange,
+                extraProps: {
+                  value: lastName,
+                  onChange: handleFieldChange,
+                },
               },
             ]}
             submitText="Add to addressbook"

@@ -7,11 +7,12 @@ import $ from "./Form.module.css";
 interface FormEntry {
   name: string;
   placeholder: string;
-  // TODO: Defined a suitable type for extra props
-  value: any;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  // TODO(Done): Defined a suitable type for extra props
   // This type should cover all different of attribute types
-  extraProps?: any;
+  extraProps: {
+    value: any;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  };
 }
 
 interface FormProps {
