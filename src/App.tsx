@@ -67,14 +67,13 @@ function App() {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URL}/api/getAddresses?postcode=${postCode}&streetnumber=${houseNumber}`
       );
-
       if (!response.ok) {
         throw new Error("Failed to fetch addresses");
       }
 
       const data = await response.json();
-      const transformedAddresses = data.map((address: RawAddressModel) =>
-        transformAddress(address)
+      const transformedAddresses = data.details.map(
+        (address: RawAddressModel) => transformAddress(address)
       );
 
       setAddresses(transformedAddresses);
@@ -111,7 +110,6 @@ function App() {
       setError("Selected address not found");
       return;
     }
-
     addAddress({ ...foundAddress, firstName, lastName });
   };
 
@@ -125,31 +123,31 @@ function App() {
             Enter an address by postcode add personal info and done! 👏
           </small>
         </h1>
-        {/* TODO(Done): Create generic <Form /> component to display form rows, legend and a submit button  */}
-        <form onSubmit={handleAddressSubmit}>
-          <fieldset>
-            <legend>🏠 Find an address</legend>
-            <div className={styles.formRow}>
-              <InputText
-                name="postCode"
-                onChange={handleFieldChange}
-                placeholder="Post Code"
-                value={postCode}
-              />
-            </div>
-            <div className={styles.formRow}>
-              <InputText
-                name="houseNumber"
-                onChange={handleFieldChange}
-                value={houseNumber}
-                placeholder="House number"
-              />
-            </div>
-            <Button type="submit" variant="primary" loading={isLoading}>
-              Find
-            </Button>
-          </fieldset>
-        </form>
+        {/* TODO: Create generic <Form /> component to display form rows, legend and a submit button  */}
+        <Form
+          onFormSubmit={handleAddressSubmit} // Pass the function directly
+          label="🏠 Find an address"
+          formEntries={[
+            {
+              name: "postCode",
+              placeholder: "Post Code",
+              extraProps: {
+                value: postCode,
+                onChange: handleFieldChange,
+              },
+            },
+            {
+              name: "houseNumber",
+              placeholder: "House number",
+              extraProps: {
+                value: houseNumber,
+                onChange: handleFieldChange,
+              },
+            },
+          ]}
+          submitText="Find"
+          loading={isLoading}
+        />
         {isLoading && <div>Loading...</div>}
         {addresses.length > 0 &&
           addresses.map((address) => {
@@ -167,7 +165,7 @@ function App() {
         {/* TODO(Done): Create generic <Form /> component to display form rows, legend and a submit button  */}
         {selectedAddress && (
           <Form
-            onFormSubmit={() => handlePersonSubmit}
+            onFormSubmit={handlePersonSubmit}
             label="✏️ Add personal info to address"
             formEntries={[
               {
