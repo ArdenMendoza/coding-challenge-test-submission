@@ -31,7 +31,7 @@ export default async function handle(
    */
   const isStrictlyNumeric = (value: string) => /^\d+$/.test(value);
 
-  /** TODO: Refactor the code below so there is no duplication of logic for postCode/streetNumber digit checks. */
+  /** TODO(Done): Refactor the code below so there is no duplication of logic for postCode/streetNumber digit checks. */
   const validateNumericField = (
     value: string | string[] | undefined,
     fieldName: string
